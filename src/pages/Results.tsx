@@ -160,13 +160,22 @@ export default function Results() {
             <div
               key={m.id}
               onClick={() => navigate(`/movie/${m.id}`)}
-              className="relative group cursor-pointer rounded-xl overflow-hidden transition duration-300"
+              className="relative group cursor-pointer rounded-xl overflow-hidden transition duration-300 h-[260px] sm:h-[320px]"
             >
 
               {/* 🎬 Poster */}
               <img
-                src="https://via.placeholder.com/300x450"
-                className="w-full h-full"
+                src={
+                  m.poster_path
+                    ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
+                    : "https://via.placeholder.com/300x450?text=No+Image"
+                }
+                alt={m.title}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src =
+                    "https://via.placeholder.com/300x450?text=No+Image";
+                }}
               />
 
               {/* ⭐ Rating Badge (upgraded) */}
