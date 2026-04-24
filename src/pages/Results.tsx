@@ -165,17 +165,8 @@ export default function Results() {
 
               {/* 🎬 Poster */}
               <img
-                src={
-                  m.poster_path
-                    ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
-                    : "https://via.placeholder.com/300x450?text=No+Image"
-                }
-                alt={m.title}
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src =
-                    "https://via.placeholder.com/300x450?text=No+Image";
-                }}
+                src="https://via.placeholder.com/300x450"
+                className="w-full h-full"
               />
 
               {/* ⭐ Rating Badge (upgraded) */}
