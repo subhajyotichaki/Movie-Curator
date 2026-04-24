@@ -10,7 +10,7 @@ export default function Results() {
   const query = searchParams.get("query");
   const mood = searchParams.get("mood");
   const [movies, setMovies] = useState<any[]>([]);
-  const [page, setPage] = useState(1);
+
   const [loading, setLoading] = useState(false);
 
   const API_KEY = "34b47e303e954d17fae52b72fcf86f7e";
