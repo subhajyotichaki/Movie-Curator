@@ -52,24 +52,30 @@ export default function Results() {
     const fetchMovies = async () => {
       setLoading(true);
 
-      let res;
+      try {
+        let res;
 
-      if (query) {
-        // 🔍 search by name
-        res = await axios.get(
-          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`
-        );
-      } else {
-        // 🎭 mood logic
-        const genre = getGenresFromMood(mood);
+        if (query) {
+          res = await axios.get(
+            `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`
+          );
+        } else {
+          const genre = getGenresFromMood(mood);
 
-        res = await axios.get(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genre}`
-        );
+          res = await axios.get(
+            `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genre}`
+          );
+        }
+
+        console.log("API RESULT:", res.data.results); // 🔥 DEBUG
+
+        setMovies(res.data.results || []);
+      } catch (err) {
+        console.error("API ERROR:", err);
+        setMovies([]); // fallback
+      } finally {
+        setLoading(false);
       }
-
-      setMovies(res.data.results);
-      setLoading(false);
     };
 
     fetchMovies();
@@ -140,7 +146,7 @@ export default function Results() {
             />
           ))}
         </div>
-      ) : movies.length === 0 ? (
+      ) : !loading && movies.length === 0 ? (
         /* ❌ Empty State */
         <div className="text-center mt-20 text-gray-400">
           <p className="text-xl mb-2">No movies found 😕</p>
@@ -166,6 +172,10 @@ export default function Results() {
                 }
                 alt={m.title}
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src =
+                    "https://via.placeholder.com/300x450?text=No+Image";
+                }}
               />
 
               {/* ⭐ Rating Badge (upgraded) */}
