@@ -159,9 +159,13 @@ export default function Results() {
 
               {/* 🎬 Poster */}
               <img
-                src={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
+                src={
+                  m.poster_path
+                    ? `https://image.tmdb.org/t/p/w500${m.poster_path}`
+                    : "https://via.placeholder.com/300x450?text=No+Image"
+                }
                 alt={m.title}
-                className="w-full h-72 object-cover transition duration-500 group-hover:scale-110 group-hover:brightness-75"
+                className="w-full h-full object-cover"
               />
 
               {/* ⭐ Rating Badge (upgraded) */}
